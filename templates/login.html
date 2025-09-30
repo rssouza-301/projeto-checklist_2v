@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-background">
+    <div class="card shadow-lg" style="width: 22rem;">
+        <div class="card-body p-5">
+            <h3 class="card-title text-center mb-4">Acessar Sistema</h3>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="login" class="form-label">Usuário</label>
+                    <input type="text" class="form-control" id="login" name="login" required>
+                </div>
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <a href="{{ url_for('novo_usuario') }}" class="btn btn-outline-secondary mt-2">Criar Novo Usuário</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+    /* Esconde o footer padrão na tela de login */
+    .footer { display: none; }
+</style>
+{% endblock %}

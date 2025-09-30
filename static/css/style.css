@@ -1,0 +1,8 @@
+.login-background {
+    background-color: #f1f505;
+    background-image: linear-gradient(to right, #f1f505, #012d73);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

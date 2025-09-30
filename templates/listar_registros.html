@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block title %}Listagem de Registros{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Registros de Checklist</h2>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<h3>Registros de Abertura</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Data/Hora</th>
+                <th>Líder</th>
+                <th>Fiscal</th>
+                <th>Luzes Ligadas</th>
+                <th>Equip. Checados</th>
+                <th>Localização (Lat, Lng)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in aberturas %}
+            <tr>
+                <td>{{ registro['data_hora_abertura'] }}</td>
+                <td>{{ registro['lider_abertura'] }}</td>
+                <td>{{ registro['fiscal_abertura'] }}</td>
+                <td>{% if registro['luzes_ligadas'] %}Sim{% else %}Não{% endif %}</td>
+                <td>{% if registro['equipamentos_checados'] %}Sim{% else %}Não{% endif %}</td>
+                <td>{{ "%.4f"|format(registro['latitude']) }}, {{ "%.4f"|format(registro['longitude']) }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Nenhum registro de abertura encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h3 class="mt-5">Registros de Fechamento</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Data/Hora</th>
+                <th>Líder</th>
+                <th>Fiscal</th>
+                <th>Luzes Desligadas</th>
+                <th>Equip. Desligados</th>
+                <th>Localização (Lat, Lng)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in fechamentos %}
+            <tr>
+                <td>{{ registro['data_hora_fechamento'] }}</td>
+                <td>{{ registro['lider_fechamento'] }}</td>
+                <td>{{ registro['fiscal_fechamento'] }}</td>
+                <td>{% if registro['luzes_desligadas'] %}Sim{% else %}Não{% endif %}</td>
+                <td>{% if registro['equipamentos_desligados'] %}Sim{% else %}Não{% endif %}</td>
+                <td>{{ "%.4f"|format(registro['latitude']) }}, {{ "%.4f"|format(registro['longitude']) }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Nenhum registro de fechamento encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block title %}Registro de Fechamento{% endblock %}
+{% block content %}
+<h2>Checklist de Fechamento</h2>
+<hr>
+<form method="POST" class="row g-3">
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+
+    <div class="col-md-6">
+        <label for="lider_fechamento" class="form-label">Líder que fechou:</label>
+        <input type="text" id="lider_fechamento" name="lider_fechamento" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+        <label for="fiscal_fechamento" class="form-label">Fiscal que acompanhou:</label>
+        <input type="text" id="fiscal_fechamento" name="fiscal_fechamento" class="form-control" required>
+    </div>
+    <div class="col-md-12 mt-4">
+        <p><strong>Verificações:</strong></p>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="luzes_desligadas" id="luzes_desligadas" value="1">
+            <label class="form-check-label" for="luzes_desligadas">Todas as luzes foram desligadas?</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="equipamentos_desligados" id="equipamentos_desligados" value="1">
+            <label class="form-check-label" for="equipamentos_desligados">Equipamentos essenciais desligados?</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="riscos_incendio" id="riscos_incendio" value="1">
+            <label class="form-check-label" for="riscos_incendio">Verificado riscos de incêndio?</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="portoes_lacrados" id="portoes_lacrados" value="1">
+            <label class="form-check-label" for="portoes_lacrados">Todos os portões de acesso foram lacrados?</label>
+        </div>
+    </div>
+     <div class="col-md-6">
+        <label for="troca_vigilante" class="form-label">Troca de serviço da vigilância:</label>
+        <input type="text" id="troca_vigilante" name="troca_vigilante" class="form-control" placeholder="Ex: Vigilante Diurno passou para o Noturno" required>
+    </div>
+    <div class="col-md-6">
+        <label for="lacres_registrados" class="form-label">Números dos novos lacres:</label>
+        <textarea id="lacres_registrados" name="lacres_registrados" class="form-control"></textarea>
+    </div>
+    <div class="col-12 mt-4">
+        <button type="submit" class="btn btn-primary">Salvar Registro de Fechamento</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar</a>
+    </div>
+</form>
+
+<div id="location-error" class="alert alert-danger mt-3 d-none">
+    Não foi possível obter sua localização. Por favor, habilite o serviço de localização no seu navegador e tente novamente.
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.getElementById('latitude').value = position.coords.latitude;
+            document.getElementById('longitude').value = position.coords.longitude;
+        }, function(error) {
+            console.error("Erro ao obter localização: " + error.message);
+            document.getElementById('location-error').classList.remove('d-none');
+        });
+    } else {
+        alert("Geolocalização não é suportada por este navegador.");
+        document.getElementById('location-error').classList.remove('d-none');
+    }
+});
+</script>
+{% endblock %}
